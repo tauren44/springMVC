@@ -1,12 +1,12 @@
 package com.mateacademy.springmvcexample;
 
-import com.mateacademy.springmvcexample.config.ApplicationConfig;
-import org.springframework.context.annotation.AnnotationConfigApplicationContext;
+import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
 
+@SpringBootApplication
 public class SpringMvcExampleApplication {
 
     public static void main(String[] args) {
-        AnnotationConfigApplicationContext context = new AnnotationConfigApplicationContext(ApplicationConfig.class);
+        SpringApplication.run(SpringMvcExampleApplication.class, args);
     }
-
 }

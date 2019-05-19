@@ -1,52 +1,52 @@
 package com.mateacademy.springmvcexample.controller;
 
 import com.mateacademy.springmvcexample.dto.User;
-import com.mateacademy.springmvcexample.transform.UserTransformer;
+import com.mateacademy.springmvcexample.service.UserService;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.PostMapping;
 
 @Controller
 @AllArgsConstructor(onConstructor = @__(@Autowired))
 public class UserController {
-    private UserTransformer transformer;
+    private UserService userService;
 
-    @RequestMapping(path = "/")
+    @GetMapping(path = "/")
     public String index() {
         return "index";
     }
 
-    @RequestMapping(path = "/users/add", method = RequestMethod.GET)
+    @GetMapping(path = "/users/add")
     public String createUser(Model model) {
         model.addAttribute("user", new User());
         return "edit";
     }
 
-    @RequestMapping(path = "users", method = RequestMethod.POST)
+    @PostMapping(path = "users")
     public String saveUser(User user) {
-        transformer.addUser(user);
-        return "redirect:/";
+        userService.createUser(user);
+        return "redirect:/users";
     }
 
-    @RequestMapping(path = "/users", method = RequestMethod.GET)
+    @GetMapping(path = "/users")
     public String getAllUsers(Model model) {
-        model.addAttribute("users", transformer.findAll());
+        model.addAttribute("users", userService.findAll());
         return "users";
     }
 
-    @RequestMapping(path = "/users/edit/{id}", method = RequestMethod.GET)
+    @GetMapping(path = "/users/edit/{id}")
     public String editUser(Model model, @PathVariable(value = "id") Long id) {
-        model.addAttribute("product", transformer.findOne(id));
+        model.addAttribute("user", userService.findUserById(id));
         return "edit";
     }
 
-    @RequestMapping(path = "/users/delete/{id}", method = RequestMethod.GET)
+    @GetMapping(path = "/users/delete/{id}")
     public String deleteUser(@PathVariable(name = "id") Long id) {
-        transformer.deleteUser(id);
+        userService.deleteUser(id);
         return "redirect:/users";
     }
 }

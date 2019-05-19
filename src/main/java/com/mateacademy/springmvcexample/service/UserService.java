@@ -1,17 +1,17 @@
 package com.mateacademy.springmvcexample.service;
 
-import com.mateacademy.springmvcexample.model.UserEntity;
+import com.mateacademy.springmvcexample.dto.User;
 
 import java.util.List;
 
 public interface UserService {
-    void createUser(UserEntity user);
+    void createUser(User user);
 
-    void updateUser(UserEntity user);
+    void updateUser(User user);
 
     void deleteUser(Long id);
 
-    UserEntity findUserById(Long id);
+    User findUserById(Long id);
 
-    List<UserEntity> findAll();
+    List<User> findAll();
 }

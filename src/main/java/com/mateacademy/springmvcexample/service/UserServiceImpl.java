@@ -1,7 +1,7 @@
 package com.mateacademy.springmvcexample.service;
 
-import com.mateacademy.springmvcexample.model.UserEntity;
-import com.mateacademy.springmvcexample.repository.UserRepository;
+import com.mateacademy.springmvcexample.dto.User;
+import com.mateacademy.springmvcexample.transform.UserTransformer;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -11,30 +11,30 @@ import java.util.List;
 @Service
 @AllArgsConstructor(onConstructor = @__(@Autowired))
 public class UserServiceImpl implements UserService {
-    private UserRepository repository;
+    private UserTransformer transformer;
 
     @Override
-    public void createUser(UserEntity user) {
-        repository.save(user);
+    public void createUser(User user) {
+        transformer.addUser(user);
     }
 
     @Override
-    public void updateUser(UserEntity user) {
-        repository.save(user);
+    public void updateUser(User user) {
+        transformer.updateUser(user);
     }
 
     @Override
     public void deleteUser(Long id) {
-        repository.deleteById(id);
+        transformer.deleteUser(id);
     }
 
     @Override
-    public UserEntity findUserById(Long id) {
-        return repository.findById(id).orElseThrow(IllegalArgumentException::new);
+    public User findUserById(Long id) {
+        return transformer.findOne(id);
     }
 
     @Override
-    public List<UserEntity> findAll() {
-        return repository.findAll();
+    public List<User> findAll() {
+        return transformer.findAll();
     }
 }

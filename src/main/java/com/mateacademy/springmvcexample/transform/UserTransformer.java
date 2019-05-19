@@ -2,7 +2,7 @@ package com.mateacademy.springmvcexample.transform;
 
 import com.mateacademy.springmvcexample.dto.User;
 import com.mateacademy.springmvcexample.model.UserEntity;
-import com.mateacademy.springmvcexample.service.UserService;
+import com.mateacademy.springmvcexample.repository.UserRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -14,27 +14,27 @@ import static java.util.stream.Collectors.toList;
 @Component
 @AllArgsConstructor(onConstructor = @__(@Autowired))
 public class UserTransformer {
-    private UserService userService;
+    private final UserRepository repository;
 
     public void addUser(User user) {
-        userService.createUser(buildEntity(user));
+        repository.save(buildEntity(user));
     }
 
     public void updateUser(User user) {
-        userService.updateUser(buildEntity(user));
+        repository.save(buildEntity(user));
     }
 
     public void deleteUser(Long id) {
-        userService.deleteUser(id);
+        repository.deleteById(id);
     }
 
-    public List<User> findAll(){
-        List<UserEntity> entities = userService.findAll();
+    public List<User> findAll() {
+        List<UserEntity> entities = repository.findAll();
         return buildUsers(entities);
     }
 
     public User findOne(Long id) {
-        return buildUser(userService.findUserById(id));
+        return buildUser(repository.findById(id).orElseThrow(IllegalArgumentException::new));
     }
 
     private User buildUser(UserEntity entity) {
@@ -45,6 +45,7 @@ public class UserTransformer {
                 .setSalary(entity.getSalary())
                 .setEmail(entity.getEmail());
     }
+
     private List<User> buildUsers(List<UserEntity> entities) {
         return entities.stream()
                 .map(this::buildUser)
@@ -52,10 +53,16 @@ public class UserTransformer {
     }
 
     private UserEntity buildEntity(User user) {
-        return new UserEntity()
+        UserEntity entity;
+        if(user.getId() == null) {
+            entity = new UserEntity();
+        } else entity = repository.findById(user.getId()).orElseThrow(IllegalArgumentException::new);
+        entity
                 .setAge(user.getAge())
                 .setName(user.getName())
                 .setSalary(user.getSalary())
                 .setEmail(user.getEmail());
+        user.setId(entity.getId());
+        return entity;
     }
 }
