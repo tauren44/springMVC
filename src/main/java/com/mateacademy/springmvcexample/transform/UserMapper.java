@@ -13,52 +13,31 @@ import static java.util.stream.Collectors.toList;
 
 @Component
 @AllArgsConstructor(onConstructor = @__(@Autowired))
-public class UserTransformer {
+public class UserMapper {
     private final UserRepository repository;
 
-    public void addUser(User user) {
-        repository.save(buildEntity(user));
-    }
-
-    public void updateUser(User user) {
-        repository.save(buildEntity(user));
-    }
-
-    public void deleteUser(Long id) {
-        repository.deleteById(id);
-    }
-
-    public List<User> findAll() {
-        List<UserEntity> entities = repository.findAll();
-        return buildUsers(entities);
-    }
-
-    public User findOne(Long id) {
-        return buildUser(repository.findById(id).orElseThrow(IllegalArgumentException::new));
-    }
-
-    private User buildUser(UserEntity entity) {
+    public User mapUserEntityToUser(UserEntity entity) {
         return new User()
                 .setId(entity.getId())
-                .setAge(entity.getAge())
+                .setDateOfBirth(entity.getDateOfBirth())
                 .setName(entity.getName())
                 .setSalary(entity.getSalary())
                 .setEmail(entity.getEmail());
     }
 
-    private List<User> buildUsers(List<UserEntity> entities) {
+    public List<User> mapUserEntitiesToUsers(List<UserEntity> entities) {
         return entities.stream()
-                .map(this::buildUser)
+                .map(this::mapUserEntityToUser)
                 .collect(toList());
     }
 
-    private UserEntity buildEntity(User user) {
+    public UserEntity mapUserToUserEntity(User user) {
         UserEntity entity;
         if(user.getId() == null) {
             entity = new UserEntity();
         } else entity = repository.findById(user.getId()).orElseThrow(IllegalArgumentException::new);
         entity
-                .setAge(user.getAge())
+                .setDateOfBirth(user.getDateOfBirth())
                 .setName(user.getName())
                 .setSalary(user.getSalary())
                 .setEmail(user.getEmail());

@@ -6,6 +6,8 @@
     <th:block th:include="layout/header"></th:block>
 </head>
 <body>
-
+<form th:action="@{/logout}" method="post">
+    <input type="submit" value="Sign Out"/>
+</form>
 </body>
 </html>
