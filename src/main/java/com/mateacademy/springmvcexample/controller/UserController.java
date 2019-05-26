@@ -16,11 +16,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 public class UserController {
     private final UserService userService;
 
-    @GetMapping(path = "/index")
-    public String index() {
-        return "index";
-    }
-
     @GetMapping(path = "/users/add")
     @Secured("ROLE_admin")
     public String createUser(Model model) {

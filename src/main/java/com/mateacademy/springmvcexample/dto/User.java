@@ -5,7 +5,7 @@ import lombok.Setter;
 import lombok.experimental.Accessors;
 
 import javax.validation.constraints.Email;
-import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.time.LocalDate;
 
@@ -21,7 +21,7 @@ public class User {
     @Size(min = 2)
     private String name;
 
-    @NotBlank
+    @NotNull
     private Integer salary;
 
     @Email

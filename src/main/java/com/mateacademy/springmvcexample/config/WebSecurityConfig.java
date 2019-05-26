@@ -23,6 +23,10 @@ import java.util.Map;
 @Configuration
 @EnableWebSecurity
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
+    private static final String NOOP_ENCODER = "noop";
+    private static final String PBKDF2_ENCODER = "pbkdf2";
+    private static final String SCRYPT_ENCODER = "scrypt";
+    private static final String SHA256_ENCODER = "sha256";
 
     @Autowired
     private AccessDeniedHandler accessDeniedHandler;
@@ -32,8 +36,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
         http.csrf().disable()
                 .authorizeRequests()
-                //.antMatchers("/service").permitAll()
-                //.antMatchers("/car/**").hasAnyRole("ADMIN")
+                .antMatchers("/service").permitAll()
+                .antMatchers("/car/**").hasAnyRole("ADMIN")
                 .anyRequest().authenticated()
                 .and()
                 .formLogin()
@@ -52,10 +56,10 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         String idForEncode = "bcrypt";
         Map encoders = new HashMap<>();
         encoders.put(idForEncode, new BCryptPasswordEncoder());
-        encoders.put("noop", NoOpPasswordEncoder.getInstance());
-        encoders.put("pbkdf2", new Pbkdf2PasswordEncoder());
-        encoders.put("scrypt", new SCryptPasswordEncoder());
-        encoders.put("sha256", new StandardPasswordEncoder());
+        encoders.put(NOOP_ENCODER, NoOpPasswordEncoder.getInstance());
+        encoders.put(PBKDF2_ENCODER, new Pbkdf2PasswordEncoder());
+        encoders.put(SCRYPT_ENCODER, new SCryptPasswordEncoder());
+        encoders.put(SHA256_ENCODER, new StandardPasswordEncoder());
 
         return new DelegatingPasswordEncoder(idForEncode, encoders);
     }
