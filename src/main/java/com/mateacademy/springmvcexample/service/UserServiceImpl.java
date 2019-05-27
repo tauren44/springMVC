@@ -4,6 +4,7 @@ import com.mateacademy.springmvcexample.dto.User;
 import com.mateacademy.springmvcexample.repository.UserRepository;
 import com.mateacademy.springmvcexample.transform.UserMapper;
 import lombok.AllArgsConstructor;
+import lombok.NoArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

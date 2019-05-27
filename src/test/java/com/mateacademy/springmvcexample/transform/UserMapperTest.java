@@ -3,17 +3,14 @@ package com.mateacademy.springmvcexample.transform;
 import com.mateacademy.springmvcexample.dto.User;
 import com.mateacademy.springmvcexample.model.Role;
 import com.mateacademy.springmvcexample.model.UserEntity;
-import lombok.AllArgsConstructor;
 import org.junit.Test;
-import org.springframework.beans.factory.annotation.Autowired;
 
 import java.time.LocalDate;
 
 import static org.junit.Assert.assertEquals;
 
-@AllArgsConstructor(onConstructor = @__(@Autowired))
 public class UserMapperTest {
-    private final UserMapper mapper;
+    private UserMapper mapper = new UserMapper();
 
     @Test
     public void shouldMapUserEntityToUser() {
