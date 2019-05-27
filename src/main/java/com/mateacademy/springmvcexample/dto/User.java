@@ -1,5 +1,6 @@
 package com.mateacademy.springmvcexample.dto;
 
+import com.mateacademy.springmvcexample.model.Role;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.experimental.Accessors;
@@ -20,6 +21,8 @@ public class User {
 
     @Size(min = 2)
     private String name;
+
+    private Role role;
 
     @NotNull
     private Integer salary;

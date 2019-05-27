@@ -27,6 +27,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     private static final String PBKDF2_ENCODER = "pbkdf2";
     private static final String SCRYPT_ENCODER = "scrypt";
     private static final String SHA256_ENCODER = "sha256";
+    private static final String ID_FOR_ENCODE = "bcrypt";
 
     @Autowired
     private AccessDeniedHandler accessDeniedHandler;
@@ -53,7 +54,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Bean
     public PasswordEncoder passwordEncoder() {
-        String idForEncode = "bcrypt";
+        String idForEncode = ID_FOR_ENCODE;
         Map encoders = new HashMap<>();
         encoders.put(idForEncode, new BCryptPasswordEncoder());
         encoders.put(NOOP_ENCODER, NoOpPasswordEncoder.getInstance());
